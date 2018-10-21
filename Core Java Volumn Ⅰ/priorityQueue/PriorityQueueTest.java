@@ -3,6 +3,13 @@ package priorityQueue;
 import java.time.LocalDate;
 import java.util.PriorityQueue;
 
+/**
+ * This program demonstrates the use of a priority queue
+ * 
+ * @version 1.01 2018-10-21
+ * @author GJ
+ *
+ */
 public class PriorityQueueTest {
 	public static void main(String[] args) {
 		PriorityQueue<LocalDate> pq = new PriorityQueue<>();
