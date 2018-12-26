@@ -20,6 +20,10 @@ public class Bounce {
 }
 
 class BounceFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private BallComponent comp;
 	public static final int STEPS = 1000;
 	public static final int DELAY = 3;
