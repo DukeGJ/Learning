@@ -3,9 +3,9 @@ import java.sql.*;
 
 public class JDBCDemo {
     //JDBC驱动名称
-    public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     //数据库URL
-    public static final String DB_URL = "jdbc:mysql://localhost/test";
+    public static final String DB_URL = "jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
     //用户名
     public static final String USER = "root";
     //密码
@@ -16,7 +16,7 @@ public class JDBCDemo {
         Statement statement = null;
         try {
             //注册JDBC驱动
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(JDBC_DRIVER);
             //连接数据库
             System.out.println("Connecting to database");
             connection = DriverManager.getConnection(DB_URL,USER,PASS);
