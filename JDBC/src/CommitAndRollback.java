@@ -7,7 +7,7 @@ public class CommitAndRollback {
     //JDBC驱动名称
     public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     //数据库URL
-    public static final String DB_URL = "jdbc:mysql://localhost/test?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
+    public static final String DB_URL = "jdbc:mysql://localhost/robot?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
     //用户名
     public static final String USER = "root";
     //密码
@@ -47,7 +47,7 @@ public class CommitAndRollback {
             connection.commit();
 
             //STEP 9: Now list all the available records.
-            String sql = "SELECT id, first, last, age FROM user ";
+            String sql = "SELECT * FROM user ";
             ResultSet rs = statement.executeQuery(sql);
             System.out.println("List result set for reference....");
             printRs(rs);
