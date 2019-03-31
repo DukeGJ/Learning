@@ -1,4 +1,5 @@
-import javax.xml.transform.Result;
+package Test;
+
 import java.sql.*;
 
 public class JDBCDemo {

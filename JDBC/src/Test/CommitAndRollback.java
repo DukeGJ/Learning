@@ -1,3 +1,5 @@
+package Test;
+
 import java.sql.*;
 
 /**
@@ -85,6 +87,7 @@ public class CommitAndRollback {
             }
         }
     }
+
     public static void printRs(ResultSet set) throws SQLException{
         //Ensure we start with first row
         set.beforeFirst();

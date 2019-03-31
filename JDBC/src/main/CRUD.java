@@ -1,3 +1,7 @@
+package main;
+
+import domain.User;
+import main.util.JDBCUtil;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -7,37 +11,19 @@ public class CRUD {
 
     public static void main(String[] args) {
 
-        System.out.println("before create");
-        read();
-        create();
-        System.out.println("after create");
-        read();
-
-
-        System.out.println("before update");
-        read();
-        update();
-        System.out.println("after update");
-        read();
-
-
-        System.out.println("before delete");
-        read();
-        delete();
-        System.out.println("after delete");
-        read();
-
     }
 
-    static void create() {
+    static void create(User user) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
         try {
             conn = JDBCUtil.getConnection();
-            ps = conn.prepareStatement("insert user (id,name,birthday,money) value (4,'James','1992-06-03',3000.5)");
-            ps.execute();
+            ps = conn.prepareStatement("insert user (name,birthday,money) value (?,?,?)");
+            ps.setString(1, user.getName());
+            ps.setDate(2, new Date(user.getBirthday().getTime()));
+            ps.setDouble(3, user.getMoney());
+            ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -70,35 +56,68 @@ public class CRUD {
         }
     }
 
-    static void update() {
+    static User findUser(int userId) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        User user = null;
         try {
             conn = JDBCUtil.getConnection();
-            ps = conn.prepareStatement("update user set money = 1000.4 where id = 4");
+            ps = conn.prepareStatement("update user where id = ?");
+            ps.setInt(1, userId);
             ps.execute();
+            rs = ps.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                Date birthday = rs.getDate("birthday");
+                double money = rs.getDouble("money");
+                user = new User(id, name, new java.util.Date(birthday.getTime()), money);
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             JDBCUtil.dispose(conn, ps, rs);
         }
+        return user;
     }
 
-    static void delete() {
+
+    static int update(User user) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = JDBCUtil.getConnection();
+            ps = conn.prepareStatement("update user set name=?, birthday=?, money=? where id = ?");
+            ps.setString(1, user.getName());
+            ps.setDate(2, new Date(user.getBirthday().getTime()));
+            ps.setDouble(3, user.getMoney());
+            ps.setInt(4, user.getId());
+            return ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            JDBCUtil.dispose(conn, ps, rs);
+        }
+        return 0;
+    }
+
+    static int delete(User user) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
             conn = JDBCUtil.getConnection();
-            ps = conn.prepareStatement("delete from user where id = 4");
-            ps.execute();
+            ps = conn.prepareStatement("delete from user where id = ?");
+            ps.setInt(1, user.getId());
+            return ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             JDBCUtil.dispose(conn, ps, rs);
         }
+        return 0;
     }
 }
