@@ -1,17 +1,18 @@
 package Test;
 
+import dao.DaoFactory;
 import dao.UserDao;
-import dao.impl.UserDaoImpl;
 import domain.User;
 
 import java.util.Date;
 
 public class UserDaoTest {
     public static void main(String[] args) {
-        UserDao userDao = new UserDaoImpl();
-        User user = new User("James", new Date(), 10005);
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        System.out.println(userDao.getClass());
+        User user = new User("DaoFactory", new Date(), 10005);
         userDao.addUser(user);
-        User res = userDao.getUser("James");
+        User res = userDao.getUser("DaoFactory");
         System.out.println(res);
         res.setMoney(35000);
         userDao.updateUser(res);
