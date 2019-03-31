@@ -1,7 +1,5 @@
 package dao;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -11,9 +9,8 @@ public class DaoFactory {
 
     private DaoFactory() {
         Properties properties = new Properties();
-        File file = new File("JDBC/src/daoConfig.properties");
         try {
-            InputStream stream = new FileInputStream(file);
+            InputStream stream = DaoFactory.class.getResourceAsStream("../daoConfig.properties");
             properties.load(stream);
             Class cl = Class.forName(properties.getProperty("userDaoClass"));
             userDao = (UserDao) cl.newInstance();
