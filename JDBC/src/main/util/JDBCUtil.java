@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 
 public class JDBCUtil {
-    private static final String DB_URL = "jdbc:mysql://localhost/database?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
+    private static final String DB_URL = "jdbc:mysql://localhost/database?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static Logger log = Logger.getLogger(JDBCUtil.class);
 

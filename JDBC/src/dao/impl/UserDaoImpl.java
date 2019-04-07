@@ -6,6 +6,10 @@ import domain.User;
 import main.util.JDBCUtil;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class UserDaoImpl implements UserDao {
 
@@ -120,5 +124,33 @@ public class UserDaoImpl implements UserDao {
         } finally {
             JDBCUtil.dispose(conn, ps, rs);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getResult() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<Map<String, Object>> list = new LinkedList<>();
+        try {
+            conn = JDBCUtil.getConnection();
+            ps = conn.prepareStatement("select id as Id,name as Name,birthday as Birthday,money as Money from user");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("Id", rs.getInt("id"));
+                map.put("Name", rs.getString("name"));
+                map.put("Birthday", rs.getDate("birthday"));
+                map.put("Money", rs.getDouble("money"));
+                list.add(map);
+            }
+            return list;
+        } catch (SQLException sq) {
+            throw new DaoException(sq.getMessage(), sq);
+        } finally {
+            JDBCUtil.dispose(conn, ps, rs);
+        }
+
     }
 }
